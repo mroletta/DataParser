@@ -11,18 +11,29 @@
 
 using namespace std;
 
-string header_row[736];
+
+string time_row[736];
+string name_row[736];
+string max_row[736];
+string period_row[736];
+string unit_row[736];
+string data_row[736];
+
 string filename;
 string output;
-int i=0;
-int n=0;
+string line;
+
 ifstream inData;
 ofstream outData;
+
+int i=0;
+int j=0;
+int n=0;
 
 
 int main ()
 {
-  cout << "Please note this program only parses Eagle I output data for the Intrepid.  It checks DI134 (VWaferON) and removes any rows where DI134 is 0." << endl;
+	cout << "Please note this program only parses Eagle I output data for the Intrepid.  It checks DI134 (VWaferON) and removes any rows where DI134 is 0." << endl;
 	cout << "NOTE: THIS FILE MUST NOT BE OPENED BY ANY OTHER SOFTWARE!" << endl;
 	cout << endl << "Please enter the filename to parse: (e.g. TrendRC4_201204010000000.csv)" << endl;
 	
@@ -44,21 +55,74 @@ int main ()
 	outData.open(output.c_str() );
 
 	inData.ignore(1000, '\n');				//ignores first line VerX.XXx, Always, RC4,,Date: 20xx/XX/XX,,Time: XX:XX
-	
-	for ( i=1; i<=736; i++ )
-	{
-		getline (inData, header_row[i], ',');
-		outData << header_row[i] << ",";
-		cout << "i = " << i << endl;		
-	}
 
-	//cout << header_row[736];
-	//cout << header_row[737];
+	for (j=0; j<5; j++)
+		{
+		
+		while(getline(inData,line)) // grab a line, end at the /n character
+		{
+			stringstream lineStream(line);
+			string cell;
+		
+			if(i == 0)
+			{
+				n=0;
+				while(getline(lineStream,cell,',')) // within our line, go through each field ending at , 
+				{
+					time_row[n]=cell;
+					n++;
+				}
+			}
+		
+			else if( i == 1)
+			{
+				n=0;
+				while(getline(lineStream,cell,',')) // within our line, go through each field ending at , 
+				{
+					name_row[n]=cell;
+					n++;
+				}
+			}
 
-	//while (!inData.eof())
-	//{
+			else if( i == 2)
+			{
+				n=0;
+				while(getline(lineStream,cell,',')) // within our line, go through each field ending at , 
+				{
+					max_row[n]=cell;
+					n++;
+				}
+			}
+
+			else if( i == 3)
+			{
+				n=0;
+				while(getline(lineStream,cell,',')) // within our line, go through each field ending at , 
+				{
+					unit_row[n]=cell;
+					n++;
+				}
+			}
+		
+			else if( i == 4)
+			{
+				n=0;
+				while(getline(lineStream,cell,',')) // within our line, go through each field ending at , 
+				{
+					name_row[n]=cell;
+					n++;
+				}
+			}
+			i++;
+		}
+		}
 	
-	//}
+	
+	
+	
+	
+	
+	
 	
 	
 system ("PAUSE");
